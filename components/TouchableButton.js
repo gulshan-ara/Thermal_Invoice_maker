@@ -1,9 +1,10 @@
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import React from "react";
 
-const TouchableButton = ({ buttonText, onPressAction }) => {
+const TouchableButton = ({ buttonText, onPressAction, disabled }) => {
+	const bgColor = disabled && disabled === true ? "grey" : "dodgerblue";
 	return (
-		<TouchableOpacity onPress={onPressAction} style={styles.button}>
+		<TouchableOpacity onPress={onPressAction} style={{...styles.button, backgroundColor: bgColor}} disabled={disabled}>
 			<Text style={styles.buttonText}>{buttonText}</Text>
 		</TouchableOpacity>
 	);
@@ -13,7 +14,6 @@ export default TouchableButton;
 
 const styles = StyleSheet.create({
 	button: {
-		backgroundColor: "dodgerblue",
 		padding: 5,
 		borderRadius: 20,
 		margin: 5,

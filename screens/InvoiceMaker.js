@@ -11,13 +11,15 @@ import TouchableButton from "../components/TouchableButton";
 import AwesomeAlert from "react-native-awesome-alerts";
 import { AntDesign } from "@expo/vector-icons";
 
-const InvoiceMaker = () => {
+const InvoiceMaker = ({ navigation }) => {
 	const [customerName, setCustomerName] = useState("");
 	const [itemName, setItemName] = useState("");
 	const [pricePerUnit, setPricePerUnit] = useState("");
 	const [quantity, setQuantity] = useState("");
 	const [isAddItemPressed, setIsAddItemPressed] = useState(false);
 	const [items, setItems] = useState([]);
+
+	const isDisabled = customerName === "" || items === [];
 
 	const handleDeleteItem = (index) => {
 		const updatedItems = [...items];
@@ -27,9 +29,13 @@ const InvoiceMaker = () => {
 
 	const renderItem = ({ item, index }) => {
 		return (
-			<View style={{flexDirection: "row", marginHorizontal: 10}}>
-				<Text style={{...styles.itemRowText, marginRight: 35}}>{item.item}</Text>
-				<Text style={{...styles.itemRowText, marginRight: 35}}>{item.price}</Text>
+			<View style={{ flexDirection: "row", marginHorizontal: 10 }}>
+				<Text style={{ ...styles.itemRowText, marginRight: 35 }}>
+					{item.item}
+				</Text>
+				<Text style={{ ...styles.itemRowText, marginRight: 35 }}>
+					{item.price}
+				</Text>
 				<Text style={styles.itemRowText}>{item.unit}</Text>
 				<TouchableOpacity onPress={() => handleDeleteItem(index)}>
 					<AntDesign
@@ -51,7 +57,11 @@ const InvoiceMaker = () => {
 					onChangeText={(txt) => setCustomerName(txt)}
 					value={customerName}
 				/>
-				{items.length === 0 && <Text style={{marginHorizontal: "30%"}}>No items added yet</Text>}
+				{items.length === 0 && (
+					<Text style={{ marginHorizontal: "30%" }}>
+						No items added yet
+					</Text>
+				)}
 				{items.length > 0 && (
 					<View style={styles.itemListHeader}>
 						<Text style={styles.itemColumnHeader}>Item Name</Text>
@@ -70,15 +80,26 @@ const InvoiceMaker = () => {
 					buttonText="Add Items"
 					onPressAction={() => setIsAddItemPressed(true)}
 				/>
-				<TouchableButton buttonText="Create Invoice" />
+				<TouchableButton
+					buttonText="Create Invoice"
+					disabled={isDisabled}
+					onPressAction={() => navigation.navigate("InvoicePreview", {
+						name : customerName,
+						items : items,
+						date : new Date().toISOString()
+					})}
+				/>
 			</View>
+
 			<AwesomeAlert
 				show={isAddItemPressed}
 				title="Item Details"
 				closeOnTouchOutside={true}
 				closeOnHardwareBackPress={false}
 				showCancelButton={true}
-				showConfirmButton={true}
+				showConfirmButton={
+					!(itemName === "" || pricePerUnit === "" || quantity === "")
+				}
 				cancelText="Cancel"
 				confirmText="Add Item"
 				confirmButtonColor="dodgerblue"
@@ -140,12 +161,12 @@ const styles = StyleSheet.create({
 		letterSpacing: 0.3,
 		fontSize: 16,
 	},
-  itemRowText: {
-    fontWeight: '500',
-    letterSpacing: 0.3,
-    color: 'black',
-    fontSize: 16,
-    width: 75,
-    marginRight: 10,
-  }
+	itemRowText: {
+		fontWeight: "500",
+		letterSpacing: 0.3,
+		color: "black",
+		fontSize: 16,
+		width: 75,
+		marginRight: 10,
+	},
 });
