@@ -17,13 +17,15 @@ const styles = StyleSheet.create({
 		padding: 5,
 		borderRadius: 20,
 		margin: 5,
-		height: 60,
+		width: '60%',
+		marginHorizontal: '20%'
 	},
 	buttonText: {
 		fontSize: 20,
 		color: "white",
 		fontWeight: "bold",
 		textAlign: "center",
-		padding: 12,
+		paddingVertical: 5,
+		paddingHorizontal: 10
 	},
 });
