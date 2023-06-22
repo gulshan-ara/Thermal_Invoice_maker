@@ -1,15 +1,17 @@
 import { StyleSheet, Text, View } from "react-native";
 import React from "react";
+import { ScrollView } from "react-native-gesture-handler";
+import { dateTimeFormatter } from "../utils";
 
 const InvoicePreview = ({ route }) => {
   const {name, items, date} = route.params;
 	return (
-		<View>
+		<ScrollView>
 			<Text>InvoicePreview</Text>
       <Text>{name}</Text>
       <Text>{items.length}</Text>
-      <Text>{date}</Text>
-		</View>
+      <Text>{dateTimeFormatter(date)}</Text>
+		</ScrollView>
 	);
 };
 

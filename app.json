@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "thermal_invoicer",
-    "slug": "thermal_invoicer",
+    "slug": "invoicer",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -25,6 +25,12 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "8ecb484e-1926-42d4-9295-c3837913377d"
+      }
+    },
+    "owner": "gulshan_ara_nawshin"
   }
 }
