@@ -1,10 +1,24 @@
 import { StyleSheet, Text, View } from "react-native";
-import React from "react";
+import React, { useEffect } from "react";
 import { FlatList, ScrollView } from "react-native-gesture-handler";
 import { dateTimeFormatter } from "../utils";
+import { AntDesign } from "@expo/vector-icons";
+import { TouchableOpacity } from "react-native";
 
-const InvoicePreview = ({ route }) => {
+const InvoicePreview = ({ route, navigation }) => {
 	const { name, items, date } = route.params;
+
+	useEffect(() => {
+		navigation.setOptions({
+			headerLeft: () => {
+				return (
+					<TouchableOpacity onPress={() => navigation.navigate("Home")}>
+						<AntDesign name="back" size={20} color="black" style={{margin: 5}}/>
+					</TouchableOpacity>
+				)
+			},
+		});
+	}, [navigation]);
 
 	const totalSum = items.reduce(
 		(acc, item) => acc + item.price * item.unit,
@@ -13,7 +27,7 @@ const InvoicePreview = ({ route }) => {
 
 	const RenderItemListHeader = () => {
 		return (
-			<View style={[styles.listHeaderContainer, {marginTop: 5}]}>
+			<View style={[styles.listHeaderContainer, { marginTop: 5 }]}>
 				<Text style={styles.listHeader}>Item Name</Text>
 				<Text style={styles.listHeader}>PPU * Unit</Text>
 				<Text style={styles.listHeader}>Total Price</Text>
@@ -58,7 +72,7 @@ const InvoicePreview = ({ route }) => {
 							fontWeight: "400",
 							borderWidth: 0,
 							marginVertical: 5,
-              paddingHorizontal: 20
+							paddingHorizontal: 20,
 						},
 					]}
 				>
@@ -94,7 +108,9 @@ const InvoicePreview = ({ route }) => {
 				keyExtractor={(item, index) => `${index}`}
 				style={styles.itemsList}
 			/>
-      <Text style={{fontSize: 20, marginHorizontal: '30%'}}>-----------------------</Text>
+			<Text style={{ fontSize: 20, marginHorizontal: "30%" }}>
+				-----------------------
+			</Text>
 			<View style={styles.textViewContainer}>
 				<Text style={styles.text}>Total :</Text>
 				<Text style={styles.text}>{totalSum} TK</Text>
@@ -103,7 +119,12 @@ const InvoicePreview = ({ route }) => {
 				<Text style={styles.text}>Cash :</Text>
 				<Text style={styles.text}>{totalSum} TK</Text>
 			</View>
-			<Text style={[styles.text, { fontWeight: "400", marginLeft: 30, marginTop: 10 }]}>
+			<Text
+				style={[
+					styles.text,
+					{ fontWeight: "400", marginLeft: 30, marginTop: 10 },
+				]}
+			>
 				{dateTimeFormatter(date)}
 			</Text>
 		</View>
