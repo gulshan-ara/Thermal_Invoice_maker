@@ -22,7 +22,10 @@ const InvoiceMaker = ({ navigation }) => {
 	const [isSaved, setIsSaved] = useState(false);
 	const [items, setItems] = useState([]);
 
-	const isDisabled = customerName === "" || items === [];
+	let isDisabled = false;
+	if(customerName === "" || items.length === 0){
+		isDisabled = true;
+	}
 
 	const handleDeleteItem = (index) => {
 		const updatedItems = [...items];
