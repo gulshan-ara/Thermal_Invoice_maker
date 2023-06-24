@@ -1,12 +1,11 @@
 import { StyleSheet, Text, TextInput, View } from "react-native";
 import React, { useState } from "react";
 
-const CustomTextInput = ({ label, onChangeText, value }) => {
+const CustomTextInput = ({ label, onChangeText, value, style }) => {
 
 	return (
 		<View style={styles.inputContainer}>
-			<Text style={styles.label}>{label}</Text>
-			<Text style={styles.label}>:</Text>
+			<Text style={styles.label}>{label} :</Text>
 			<TextInput
 				style={styles.inputBox}
 				onChangeText={onChangeText}
@@ -29,6 +28,7 @@ const styles = StyleSheet.create({
 		fontWeight: "bold",
 		fontSize: 16,
 		letterSpacing: 0.3,
+		flex: 2
 	},
 	inputBox: {
 		letterSpacing: 0.3,
@@ -38,5 +38,6 @@ const styles = StyleSheet.create({
 		fontSize: 16,
 		marginHorizontal: 10,
 		padding: 5,
+		flex: 4.5
 	},
 });

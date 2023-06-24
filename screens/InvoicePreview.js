@@ -100,6 +100,7 @@ const InvoicePreview = ({ route, navigation }) => {
 			</Text>
 			<Text style={styles.shopInfo}>Cashier : Owner</Text>
 			<Text style={styles.shopInfo}>POS: POS 1 </Text>
+			<Text style={[styles.shopInfo, {fontWeight: "bold"}]}>Customer Name : {name} </Text>
 			<RenderItemListHeader />
 			<FlatList
 				horizontal={false}

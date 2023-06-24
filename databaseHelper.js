@@ -1,5 +1,5 @@
 import { getFirebaseApp } from "./firebaseHelper";
-import { child, get, getDatabase, ref, set } from "firebase/database";
+import { child, get, getDatabase, ref, remove, set } from "firebase/database";
 
 export const saveInvoice = async (invoiceId, invoiceData) => {
 	const app = getFirebaseApp();
@@ -17,9 +17,21 @@ export const getInvoices = async () => {
 		const invoiceRef = child(dbRef, `invoices`);
 
     const snapshot = await get(invoiceRef);
-    console.log(snapshot.val());
+    // console.log(snapshot.val());
     return snapshot.val();
 	} catch (error) {
     console.log(error);
   }
 };
+
+export const deleteInvoice = async (invoiceId) => {
+	try {
+		const app = getFirebaseApp();
+		const dbRef = ref(getDatabase(app));
+		const invoiceRef = child(dbRef, `invoices/${invoiceId}`);
+
+    await remove(invoiceRef);
+	} catch (error) {
+    console.log(error);
+  }
+}
