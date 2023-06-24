@@ -9,7 +9,10 @@ const HomeScreen = ({ navigation }) => {
 				buttonText="Create New Invoice"
 				onPressAction={() => navigation.navigate("InvoiceMaker")}
 			/>
-			<TouchableButton buttonText="Show Saved Invoices" />
+			<TouchableButton
+				buttonText="Show Saved Invoices"
+				onPressAction={() => navigation.navigate("InvoiceList")}
+			/>
 		</View>
 	);
 };

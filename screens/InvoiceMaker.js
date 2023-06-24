@@ -10,6 +10,8 @@ import CustomTextInput from "../components/CustomTextInput";
 import TouchableButton from "../components/TouchableButton";
 import AwesomeAlert from "react-native-awesome-alerts";
 import { AntDesign } from "@expo/vector-icons";
+import { saveInvoice } from "../databaseHelper";
+import uuid from "react-native-uuid";
 
 const InvoiceMaker = ({ navigation }) => {
 	const [customerName, setCustomerName] = useState("");
@@ -17,6 +19,7 @@ const InvoiceMaker = ({ navigation }) => {
 	const [pricePerUnit, setPricePerUnit] = useState("");
 	const [quantity, setQuantity] = useState("");
 	const [isAddItemPressed, setIsAddItemPressed] = useState(false);
+	const [isSaved, setIsSaved] = useState(false);
 	const [items, setItems] = useState([]);
 
 	const isDisabled = customerName === "" || items === [];
@@ -26,6 +29,25 @@ const InvoiceMaker = ({ navigation }) => {
 		updatedItems.splice(index, 1);
 		setItems(updatedItems);
 	};
+
+	const previewInvoice = () => {
+		navigation.navigate("InvoicePreview", {
+			name: customerName,
+			items: items,
+			date: new Date().toISOString(),
+		});
+	};
+
+	const saveDataToDb = async () => {
+		const dateString = new Date().toISOString();
+		const invoiceId = uuid.v4();
+		const invoiceData = {
+			name : customerName,
+			items: items,
+			date: dateString
+		}
+		await saveInvoice(invoiceId, invoiceData);
+	}
 
 	const renderItem = ({ item, index }) => {
 		return (
@@ -81,13 +103,12 @@ const InvoiceMaker = ({ navigation }) => {
 					onPressAction={() => setIsAddItemPressed(true)}
 				/>
 				<TouchableButton
-					buttonText="Create Invoice"
+					buttonText="Create & Save Invoice"
 					disabled={isDisabled}
-					onPressAction={() => navigation.navigate("InvoicePreview", {
-						name : customerName,
-						items : items,
-						date : new Date().toISOString()
-					})}
+					onPressAction={() => {
+						saveDataToDb();
+						setIsSaved(true);
+					}}
 				/>
 			</View>
 
@@ -138,6 +159,29 @@ const InvoiceMaker = ({ navigation }) => {
 						/>
 					</View>
 				}
+			/>
+      
+			<AwesomeAlert
+				show={isSaved}
+				title="Invoice is Saved!!"
+				closeOnTouchOutside={true}
+				closeOnHardwareBackPress={false}
+				showCancelButton={true}
+				showConfirmButton={true}
+				cancelText="Go to Home"
+				confirmText="View Invoice"
+				confirmButtonColor="dodgerblue"
+				cancelButtonColor="grey"
+				titleStyle={{ letterSpacing: 0.3 }}
+				onCancelPressed={() => {
+					setIsSaved(false);
+					navigation.navigate("Home");
+				}}
+				onConfirmPressed={previewInvoice}
+				onDismiss={() => {
+					setIsSaved(false);
+					navigation.navigate("Home");
+				}}
 			/>
 		</>
 	);

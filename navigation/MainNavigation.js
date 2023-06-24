@@ -4,6 +4,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import HomeScreen from "../screens/HomeScreen";
 import InvoiceMaker from "../screens/InvoiceMaker";
 import InvoicePreview from "../screens/InvoicePreview";
+import InvoiceList from "../screens/InvoiceList";
 
 const Stack = createStackNavigator();
 
@@ -18,6 +19,7 @@ export default function MainNavigation({ navigation }) {
 					options={{ headerShown: false }}
 				/>
 				<Stack.Screen name="InvoiceMaker" component={InvoiceMaker} />
+				<Stack.Screen name="InvoiceList" component={InvoiceList} />
 				<Stack.Screen
 					name="InvoicePreview"
 					component={InvoicePreview}
